@@ -11,6 +11,8 @@ USER root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
      ffmpeg \
+     curl \
+     apt-utils \
      openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
@@ -20,6 +22,15 @@ ENV PATH "${HOME}/.roswell/bin:${PATH}"
 
 USER $NB_UID
 WORKDIR ${HOME}
+
+RUN jupyter lab build --dev-build=False && \
+     npm cache clean --force && \
+     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+     rm -rf /home/$NB_USER/.cache/yarn && \
+     rm -rf /home/$NB_USER/.node-gyp && \
+     fix-permissions $CONDA_DIR && \
+     fix-permissions /home/$NB_USER
+
 RUN curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
 USER root
 RUN dpkg -i roswell.deb

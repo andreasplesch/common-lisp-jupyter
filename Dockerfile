@@ -13,6 +13,8 @@ RUN apt-get update && \
      ffmpeg \
      curl \
      libczmq-dev \
+     maven \
+     libreadline7 \
      openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 

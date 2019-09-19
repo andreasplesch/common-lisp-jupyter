@@ -11,7 +11,8 @@ USER root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
      ffmpeg \
-     curl && \
+     curl \
+     libczmq-dev && \
    # openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,10 +37,10 @@ RUN dpkg -i roswell.deb
 
 WORKDIR ${HOME}/common-lisp-jupyter
 
-USER $NB_UID
-
 COPY . ${HOME}/common-lisp-jupyter
-# RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_USER} ${HOME}
+RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_GID} ${HOME}
+
+USER $NB_UID
 
 RUN ros install sbcl-bin
 RUN ros install ./common-lisp-jupyter.asd; exit 0

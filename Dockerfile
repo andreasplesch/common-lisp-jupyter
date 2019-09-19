@@ -15,7 +15,7 @@ RUN apt-get update && \
      libczmq-dev \
      maven \
      libreadline7 && \
-     #openjdk-8-jdk && \
+     openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 ENV USER ${NB_USER}
@@ -59,6 +59,9 @@ RUN ros install ./common-lisp-jupyter.asd
 # stalls
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
+
+# abcl needs java8
+RUN update-alternatives --set /usr/lib/jvm/java-8-openjdk-amd64/bin/java
 
 RUN ros install abcl-bin
 RUN ros run --lisp abcl-bin --eval "(ql:quickload :common-lisp-jupyter)" \

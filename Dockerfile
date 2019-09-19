@@ -42,10 +42,6 @@ RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_GID} ${HOME}
 
 USER $NB_UID
 
-RUN ros install sbcl-bin
-RUN ros install ./common-lisp-jupyter.asd; exit 0
-RUN ros install ./common-lisp-jupyter.asd
-
 # jupyter-console
 RUN conda install --quiet --yes \
     'jupyter_console' \
@@ -53,6 +49,10 @@ RUN conda install --quiet --yes \
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+RUN ros install sbcl-bin
+RUN ros install ./common-lisp-jupyter.asd; exit 0
+RUN ros install ./common-lisp-jupyter.asd
 
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240

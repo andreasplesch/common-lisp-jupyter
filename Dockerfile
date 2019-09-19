@@ -14,8 +14,8 @@ RUN apt-get update && \
      curl \
      libczmq-dev \
      maven \
-     libreadline7 \
-     openjdk-8-jdk && \
+     libreadline7 && \
+     #openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 ENV USER ${NB_USER}

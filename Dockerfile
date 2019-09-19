@@ -36,9 +36,10 @@ RUN dpkg -i roswell.deb
 
 WORKDIR ${HOME}/common-lisp-jupyter
 
-COPY . ${HOME}/common-lisp-jupyter
-RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_USER} ${HOME}
 USER $NB_UID
+
+COPY . ${HOME}/common-lisp-jupyter
+# RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_USER} ${HOME}
 
 RUN ros install sbcl-bin
 RUN ros install ./common-lisp-jupyter.asd; exit 0

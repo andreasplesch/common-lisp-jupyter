@@ -14,9 +14,12 @@ RUN apt-get update && \
      curl \
      libczmq-dev \
      maven \
-     libreadline7 \
+     libreadline-dev \
      openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
+
+# abcl needs java8
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 ENV USER ${NB_USER}
 ENV HOME /home/${NB_USER}
@@ -31,7 +34,7 @@ RUN jupyter lab build --dev-build=False && \
      rm -rf /home/$NB_USER/.cache/yarn && \
      rm -rf /home/$NB_USER/.node-gyp && \
      fix-permissions $CONDA_DIR && \
-     fix-permissions /home/$NB_USER
+     fix-permissions ${HOME}
 
 RUN curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
 USER root
@@ -50,7 +53,7 @@ RUN conda install --quiet --yes \
     && \
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
+    fix-permissions ${HOME}
 
 RUN ros install sbcl-bin
 RUN ros install ./common-lisp-jupyter.asd; exit 0
@@ -59,9 +62,6 @@ RUN ros install ./common-lisp-jupyter.asd
 # stalls
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
-
-# abcl needs java8
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java
 
 RUN ros install abcl-bin
 RUN ros run --lisp abcl-bin --eval "(ql:quickload :common-lisp-jupyter)" \

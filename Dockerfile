@@ -31,8 +31,8 @@ RUN jupyter lab build --dev-build=False && \
      fix-permissions /home/$NB_USER
 
 RUN curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
-USER root && \
-    dpkg --instdir=${HOME}/.roswell/ -i roswell.deb
+USER root
+RUN dpkg -i roswell.deb
 USER $NB_UID
 
 RUN ros install sbcl-bin

@@ -54,6 +54,7 @@ RUN ros install sbcl-bin
 RUN ros install ./common-lisp-jupyter.asd; exit 0
 RUN ros install ./common-lisp-jupyter.asd
 
+# stalls
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 

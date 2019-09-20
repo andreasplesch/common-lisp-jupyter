@@ -13,7 +13,7 @@ RUN apt-get update && \
      ffmpeg \
      curl \
      libczmq-dev \
-     libc6-i386 \
+     libc6-dev-i386 \
      maven \
      libreadline-dev \
      openjdk-8-jdk && \

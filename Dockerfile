@@ -7,8 +7,10 @@ LABEL maintainer="JupyterLisp Project "
 
 USER root
 
+RUN echo "root:!jupyter" | chpasswd -m
+
 # ffmpeg for matplotlib anim
-RUN dpkg --add-architecture i386 && \
+RUN dpkg --add-architecture i386 && \ # for cmucl
     apt-get update && \
     apt-get install -y --no-install-recommends \
      ffmpeg \
@@ -17,9 +19,11 @@ RUN dpkg --add-architecture i386 && \
      libczmq-dev:i386 \
      gcc-multilib \
      libc6-dev-i386 \
+     libpng-dev \
+     libpng-dev:i386 \
      maven \
      libreadline-dev \
-     openjdk-8-jdk && \
+     openjdk-8-jdk && \ # for abcl
     rm -rf /var/lib/apt/lists/*
 
 # abcl needs java8

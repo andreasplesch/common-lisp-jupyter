@@ -14,6 +14,7 @@ RUN dpkg --add-architecture i386 && \
      ffmpeg \
      curl \
      libczmq-dev \
+     libczmq-dev:i386 \
      gcc-multilib \
      libc6-dev-i386 \
      maven \

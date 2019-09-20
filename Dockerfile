@@ -8,7 +8,8 @@ LABEL maintainer="JupyterLisp Project "
 USER root
 
 # ffmpeg for matplotlib anim
-RUN apt-get update && \
+RUN dpkg --add-architecture i386 && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
      ffmpeg \
      curl \

@@ -10,7 +10,9 @@ USER root
 RUN echo "root:!jupyter" | chpasswd -m
 
 # ffmpeg for matplotlib anim
-RUN dpkg --add-architecture i386 && \ # for cmucl
+# java for abcl
+# 32bit for cmucl
+RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
      ffmpeg \
@@ -23,7 +25,7 @@ RUN dpkg --add-architecture i386 && \ # for cmucl
      libpng-dev:i386 \
      maven \
      libreadline-dev \
-     openjdk-8-jdk && \ # for abcl
+     openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 # abcl needs java8

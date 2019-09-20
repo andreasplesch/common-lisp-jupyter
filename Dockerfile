@@ -13,6 +13,7 @@ RUN apt-get update && \
      ffmpeg \
      curl \
      libczmq-dev \
+     gcc-multilib \
      libc6-dev-i386 \
      maven \
      libreadline-dev \
@@ -64,6 +65,12 @@ RUN ros install ./common-lisp-jupyter.asd
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
+RUN ros install cmu-bin
+RUN ros run --lisp cmu-bin --eval "(ql:quickload :common-lisp-jupyter)" \
+  --eval "(cl-jupyter:install-roswell :implementation \"cmu-bin\")" --quit
+RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_cmu-bin \
+  --ZMQTerminalInteractiveShell.kernel_timeout=240
+
 RUN ros install abcl-bin
 RUN ros run --lisp abcl-bin --eval "(ql:quickload :common-lisp-jupyter)" \
   --eval "(cl-jupyter:install-roswell :implementation \"abcl-bin\")" --quit
@@ -74,12 +81,6 @@ RUN ros install ccl-bin
 RUN ros run --lisp ccl-bin --eval "(ql:quickload :common-lisp-jupyter)" \
   --eval "(cl-jupyter:install-roswell :implementation \"ccl-bin\")" --quit
 RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_ccl-bin \
-  --ZMQTerminalInteractiveShell.kernel_timeout=240
-
-RUN ros install cmu-bin
-RUN ros run --lisp cmu-bin --eval "(ql:quickload :common-lisp-jupyter)" \
-  --eval "(cl-jupyter:install-roswell :implementation \"cmu-bin\")" --quit
-RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_cmu-bin \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
 RUN ros use sbcl-bin

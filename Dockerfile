@@ -40,8 +40,8 @@ WORKDIR ${HOME}
 
 #lab extension install also builds
 # RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-RUN  # Activate ipywidgets extension in the environment that runs the notebook server
-     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+RUN  jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+     # Activate ipywidgets extension in the environment that runs the notebook server
      # Also activate ipywidgets extension for JupyterLab
      # Check this URL for most recent compatibilities
      # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager

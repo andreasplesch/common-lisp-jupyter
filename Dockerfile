@@ -38,7 +38,9 @@ ENV PATH "${HOME}/.roswell/bin:${PATH}"
 USER $NB_UID
 WORKDIR ${HOME}
 
-RUN jupyter lab build --dev-build=False && \
+#lab extension install also builds
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+# RUN  jupyter lab build --dev-build=False && \
      npm cache clean --force && \
      rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
      rm -rf /home/$NB_USER/.cache/yarn && \

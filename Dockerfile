@@ -41,15 +41,15 @@ WORKDIR ${HOME}
 #lab extension install also builds
 # RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
 
-RUN  conda install --quiet --yes \
-     'ipywidgets=7.5*' && \ 
-     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+# RUN  conda install --quiet --yes \
+#      'ipywidgets=7.5*' && \ 
+#      jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
      # Install Python 3 packages
      # Activate ipywidgets extension in the environment that runs the notebook server
      # Also activate ipywidgets extension for JupyterLab
      # Check this URL for most recent compatibilities
      # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
-     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+RUN  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
      # jupyter labextension install jupyterlab_bokeh@1.0.0 --no-build && \
      jupyter lab build --dev-build=False && \
      npm cache clean --force && \

@@ -5,9 +5,11 @@ FROM $BASE_CONTAINER
 
 LABEL maintainer="JupyterLisp Project "
 
+RUN pwd && ls -latr
+
 USER root
 
-RUN echo "root:!jupyter" | chpasswd -m
+# RUN echo "root:!jupyter" | chpasswd -m
 
 # ffmpeg for matplotlib anim
 # java for abcl
@@ -52,7 +54,7 @@ WORKDIR ${HOME}
 RUN  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
      # jupyter labextension install jupyterlab_bokeh@1.0.0 --no-build && \
      jupyter lab build --dev-build=False && \
-     jupyter lab workspaces import jupyterlab/defaultWorkspace.json && \
+     jupyter lab workspaces import ${HOME}/jupyterlab/defaultWorkspace.json && \
      npm cache clean --force && \
      rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
      rm -rf /home/$NB_USER/.cache/yarn && \

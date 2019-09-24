@@ -52,6 +52,7 @@ WORKDIR ${HOME}
 RUN  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
      # jupyter labextension install jupyterlab_bokeh@1.0.0 --no-build && \
      jupyter lab build --dev-build=False && \
+     jupyter lab workspaces import jupyterlab/defaultWorkspace.json && \
      npm cache clean --force && \
      rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
      rm -rf /home/$NB_USER/.cache/yarn && \
@@ -83,25 +84,25 @@ RUN ros install ./common-lisp-jupyter.asd; exit 0
 RUN ros install ./common-lisp-jupyter.asd
 
 # stalls
-RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp \
+RUN echo '(print "Hello World!")' | jupyter-console --no-confirm-exit --kernel=common-lisp \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
 RUN ros install cmu-bin
 RUN ros run --lisp cmu-bin --eval "(ql:quickload :common-lisp-jupyter)" \
   --eval "(cl-jupyter:install-roswell :implementation \"cmu-bin\")" --quit
-RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_cmu-bin \
+RUN echo '(print "Hello World!")' | jupyter-console --no-confirm-exit --kernel=common-lisp_cmu-bin \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
 RUN ros install abcl-bin
 RUN ros run --lisp abcl-bin --eval "(ql:quickload :common-lisp-jupyter)" \
   --eval "(cl-jupyter:install-roswell :implementation \"abcl-bin\")" --quit
-RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_abcl-bin \
+RUN echo '(print "Hello World!")' | jupyter-console --no-confirm-exit --kernel=common-lisp_abcl-bin \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
 RUN ros install ccl-bin
 RUN ros run --lisp ccl-bin --eval "(ql:quickload :common-lisp-jupyter)" \
   --eval "(cl-jupyter:install-roswell :implementation \"ccl-bin\")" --quit
-RUN echo quit | jupyter-console --no-confirm-exit --kernel=common-lisp_ccl-bin \
+RUN echo '(print "Hello World!")' | jupyter-console --no-confirm-exit --kernel=common-lisp_ccl-bin \
   --ZMQTerminalInteractiveShell.kernel_timeout=240
 
 RUN ros use sbcl-bin

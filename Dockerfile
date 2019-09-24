@@ -39,6 +39,7 @@ RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_GID} ${HOME}
 ENV USER ${NB_USER}
 ENV HOME /home/${NB_USER}
 ENV PATH "${HOME}/.roswell/bin:${PATH}"
+ENV GRANT_SUDO yes
 
 USER $NB_UID
 WORKDIR ${HOME}
@@ -56,8 +57,8 @@ WORKDIR ${HOME}
      # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
 RUN  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
      # jupyter labextension install jupyterlab_bokeh@1.0.0 --no-build && \
-     jupyter lab build --dev-build=False && \
-     jupyter lab workspaces import ${HOME}/jupyterlab/defaultWorkspace.json && \
+     jupyter lab build --dev-build=False --debug --debug-log-path=lab_build_debug.log && \
+     jupyter lab workspaces import ${HOME}/common-lisp-jupyter/jupyterlab/defaultWorkspace.json && \
      npm cache clean --force && \
      rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
      rm -rf /home/$NB_USER/.cache/yarn && \

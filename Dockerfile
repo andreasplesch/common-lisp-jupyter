@@ -5,7 +5,7 @@ FROM $BASE_CONTAINER
 
 LABEL maintainer="JupyterLisp Project "
 
-RUN pwd && ls -latr
+# RUN pwd && ls -latr
 
 USER root
 
@@ -32,6 +32,9 @@ RUN dpkg --add-architecture i386 && \
 
 # abcl needs java8
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+COPY . ${HOME}/common-lisp-jupyter
+RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_GID} ${HOME}
 
 ENV USER ${NB_USER}
 ENV HOME /home/${NB_USER}
@@ -67,9 +70,6 @@ USER root
 RUN dpkg -i roswell.deb
 
 WORKDIR ${HOME}/common-lisp-jupyter
-
-COPY . ${HOME}/common-lisp-jupyter
-RUN chown -R ${NB_UID} ${HOME} && chgrp -R ${NB_GID} ${HOME}
 
 USER $NB_UID
 
